@@ -60,4 +60,10 @@ resource "aws_autoscaling_group" "this" {
       list(map("key", "Name", "value", var.name, "propagate_at_launch", true)),
       var.tags
    )}"]
+
+  # Cannot use interpolations in lifecycle attributes
+  # https://github.com/hashicorp/terraform/issues/3116
+  lifecycle {
+    ignore_changes = ["desired_capacity"]
+  }
 }
